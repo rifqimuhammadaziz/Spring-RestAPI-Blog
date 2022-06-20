@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import rifqimuhammadaziz.springrestapiblog.payload.CommentDto;
 import rifqimuhammadaziz.springrestapiblog.service.contract.CommentService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class CommentController {
@@ -21,5 +23,10 @@ public class CommentController {
             @PathVariable Long postId,
             @RequestBody CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentDto> findCommentsByPostId(@PathVariable Long postId) {
+        return commentService.findCommentsByPostId(postId);
     }
 }

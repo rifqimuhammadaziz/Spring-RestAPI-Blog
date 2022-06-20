@@ -9,6 +9,9 @@ import rifqimuhammadaziz.springrestapiblog.repository.CommentRepository;
 import rifqimuhammadaziz.springrestapiblog.repository.PostRepository;
 import rifqimuhammadaziz.springrestapiblog.service.contract.CommentService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -34,6 +37,15 @@ public class CommentServiceImpl implements CommentService {
         Comment newComment = commentRepository.save(comment);
 
         return mapToDTO(newComment);
+    }
+
+    @Override
+    public List<CommentDto> findCommentsByPostId(Long postId) {
+        // Find all comments by post id
+        List<Comment> comments = commentRepository.findAllByPostId(postId);
+
+        // Convert Entity to DTO
+        return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList());
     }
 
     // Convert Entity to DTO
