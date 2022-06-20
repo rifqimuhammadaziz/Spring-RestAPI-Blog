@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import rifqimuhammadaziz.springrestapiblog.payload.PostDto;
 import rifqimuhammadaziz.springrestapiblog.payload.PostResponse;
 import rifqimuhammadaziz.springrestapiblog.service.contract.PostService;
+import rifqimuhammadaziz.springrestapiblog.utils.AppConstants;
 
 import java.util.List;
 
@@ -29,11 +30,12 @@ public class PostController {
     // Find All Posts
     @GetMapping
     public PostResponse findAllPosts(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
-        return postService.findAllPosts(pageNo, pageSize, sortBy);
+        return postService.findAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
     // Find Post By ID
