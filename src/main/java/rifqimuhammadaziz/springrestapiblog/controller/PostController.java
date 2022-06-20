@@ -2,11 +2,11 @@ package rifqimuhammadaziz.springrestapiblog.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rifqimuhammadaziz.springrestapiblog.payload.PostDto;
 import rifqimuhammadaziz.springrestapiblog.service.contract.PostService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -18,9 +18,29 @@ public class PostController {
         this.postService = postService;
     }
 
-    // create new post
+    // Create New Post
+    @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
         // create post & return created status code
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
+    }
+
+    // Find All Posts
+    @GetMapping
+    public List<PostDto> findAllPosts() {
+        return postService.findAllPosts();
+    }
+
+    // Find Post By ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDto> findPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.findPostById(id));
+    }
+
+    // Update Post
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Long id) {
+        PostDto postResponse = postService.updatePost(postDto, id);
+        return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 }
