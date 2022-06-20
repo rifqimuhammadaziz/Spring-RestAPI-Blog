@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import rifqimuhammadaziz.springrestapiblog.exception.ResourceNotFoundException;
 import rifqimuhammadaziz.springrestapiblog.model.Post;
 import rifqimuhammadaziz.springrestapiblog.payload.PostDto;
+import rifqimuhammadaziz.springrestapiblog.payload.PostResponse;
 import rifqimuhammadaziz.springrestapiblog.repository.PostRepository;
 import rifqimuhammadaziz.springrestapiblog.service.contract.PostService;
 
@@ -34,7 +35,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findAllPosts(int pageNo, int pageSize) {
+    public PostResponse findAllPosts(int pageNo, int pageSize) {
         // Create pageable instance
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
@@ -45,7 +46,17 @@ public class PostServiceImpl implements PostService {
         List<Post> listOfPosts = posts.getContent();
 
         // Convert Iterable to List
-        return listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+        List<PostDto> content = listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(content);
+        postResponse.setPageNo(posts.getNumber());
+        postResponse.setPageSize(posts.getSize());
+        postResponse.setTotalElements(posts.getTotalElements());
+        postResponse.setTotalPages(posts.getTotalPages());
+        postResponse.setLast(posts.isLast());
+
+        return postResponse;
     }
 
     @Override
