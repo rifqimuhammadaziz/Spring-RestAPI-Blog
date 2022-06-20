@@ -1,5 +1,8 @@
 package rifqimuhammadaziz.springrestapiblog.service.implementation;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rifqimuhammadaziz.springrestapiblog.exception.ResourceNotFoundException;
 import rifqimuhammadaziz.springrestapiblog.model.Post;
@@ -31,12 +34,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findAllPosts() {
-        // Find All Posts
-        List<Post> posts = postRepository.findAll();
+    public List<PostDto> findAllPosts(int pageNo, int pageSize) {
+        // Create pageable instance
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        // Find All Posts with pagination
+        Page<Post> posts = postRepository.findAll(pageable);
+
+        // Get content for page object
+        List<Post> listOfPosts = posts.getContent();
 
         // Convert Iterable to List
-        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+        return listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
     }
 
     @Override

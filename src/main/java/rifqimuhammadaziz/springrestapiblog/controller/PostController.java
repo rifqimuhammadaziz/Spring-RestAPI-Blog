@@ -27,8 +27,11 @@ public class PostController {
 
     // Find All Posts
     @GetMapping
-    public List<PostDto> findAllPosts() {
-        return postService.findAllPosts();
+    public List<PostDto> findAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return postService.findAllPosts(pageNo, pageSize);
     }
 
     // Find Post By ID
