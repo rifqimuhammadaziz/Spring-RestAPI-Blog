@@ -1,6 +1,8 @@
 package rifqimuhammadaziz.springrestapiblog.service.implementation;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import rifqimuhammadaziz.springrestapiblog.exception.BlogAPIException;
 import rifqimuhammadaziz.springrestapiblog.exception.ResourceNotFoundException;
 import rifqimuhammadaziz.springrestapiblog.model.Comment;
 import rifqimuhammadaziz.springrestapiblog.model.Post;
@@ -46,6 +48,23 @@ public class CommentServiceImpl implements CommentService {
 
         // Convert Entity to DTO
         return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentDto getCommentById(Long postId, Long commentId) {
+        // Find Post by id
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", String.valueOf(postId)));
+
+        // Find comment by id
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
+
+        if (!comment.getPost().getId().equals(post.getId())) {
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to Post");
+        }
+
+        return mapToDTO(comment);
     }
 
     // Convert Entity to DTO
