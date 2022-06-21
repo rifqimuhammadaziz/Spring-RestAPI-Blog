@@ -8,6 +8,7 @@ import rifqimuhammadaziz.springrestapiblog.payload.PostResponse;
 import rifqimuhammadaziz.springrestapiblog.service.contract.PostService;
 import rifqimuhammadaziz.springrestapiblog.utils.AppConstants;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class PostController {
 
     // Create New Post
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
         // create post & return created status code
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
@@ -46,7 +47,7 @@ public class PostController {
 
     // Update Post
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Long id) {
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable Long id) {
         PostDto postResponse = postService.updatePost(postDto, id);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
