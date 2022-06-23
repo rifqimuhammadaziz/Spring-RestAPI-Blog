@@ -1,4 +1,4 @@
-package rifqimuhammadaziz.springrestapiblog.payload;
+package rifqimuhammadaziz.springrestapiblog.payload.User;
 
 import lombok.Data;
 
