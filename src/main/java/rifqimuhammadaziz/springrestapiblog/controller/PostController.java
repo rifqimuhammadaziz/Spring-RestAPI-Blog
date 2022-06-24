@@ -5,15 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rifqimuhammadaziz.springrestapiblog.payload.PostDto;
+import rifqimuhammadaziz.springrestapiblog.payload.PostDtoV2;
 import rifqimuhammadaziz.springrestapiblog.payload.PostResponse;
 import rifqimuhammadaziz.springrestapiblog.service.contract.PostService;
 import rifqimuhammadaziz.springrestapiblog.utils.AppConstants;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/v1/posts")
 public class PostController {
 
     private PostService postService;
@@ -43,9 +45,12 @@ public class PostController {
 
     // Find Post By ID
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> findPostById(@PathVariable Long id) {
+    public ResponseEntity<PostDto> findPostByIdV1(@PathVariable Long id) {
         return ResponseEntity.ok(postService.findPostById(id));
     }
+
+    // Find Post By ID
+
 
     // Update Post
     @PreAuthorize("hasRole('ADMIN')")
