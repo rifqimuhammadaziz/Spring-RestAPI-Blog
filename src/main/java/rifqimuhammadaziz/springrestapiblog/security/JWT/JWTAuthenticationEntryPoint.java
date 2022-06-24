@@ -1,4 +1,4 @@
-package rifqimuhammadaziz.springrestapiblog.security;
+package rifqimuhammadaziz.springrestapiblog.security.JWT;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
