@@ -1,5 +1,7 @@
 package rifqimuhammadaziz.springrestapiblog.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import rifqimuhammadaziz.springrestapiblog.security.JWT.JWTTokenProvider;
 
 import java.util.Collections;
 
+@Api(value = "Auth Controller exposes SignIn & SignUp REST APIs")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -42,6 +45,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @ApiOperation(value = "REST API to Login / SignIn User to Blog Application")
     @PostMapping("/signIn")
     public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -56,6 +60,7 @@ public class AuthController {
         return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
+    @ApiOperation(value = "REST API to Register / SignUp User to Blog Application")
     @PostMapping("/signUp")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto) {
         // check if username is exists
