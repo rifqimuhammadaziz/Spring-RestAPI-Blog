@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@ApiModel(description = "Relation of Category to Post is Many to One")
+@ApiModel(description = "Category model information")
 @Data
 public class CategoryDto {
 

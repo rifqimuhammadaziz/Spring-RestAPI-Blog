@@ -1,8 +1,10 @@
 package rifqimuhammadaziz.springrestapiblog.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -20,6 +22,10 @@ public class User {
     private String username;
     private String email;
     private String password;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    protected Date createdDate;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
