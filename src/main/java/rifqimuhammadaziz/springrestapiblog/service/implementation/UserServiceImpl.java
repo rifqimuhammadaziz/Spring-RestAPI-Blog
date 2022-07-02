@@ -2,7 +2,11 @@ package rifqimuhammadaziz.springrestapiblog.service.implementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import rifqimuhammadaziz.springrestapiblog.exception.ResourceNotFoundException;
 import rifqimuhammadaziz.springrestapiblog.model.Category;
 import rifqimuhammadaziz.springrestapiblog.model.User;
 import rifqimuhammadaziz.springrestapiblog.payload.CategoryDto;
@@ -10,10 +14,12 @@ import rifqimuhammadaziz.springrestapiblog.payload.User.UserResponse;
 import rifqimuhammadaziz.springrestapiblog.repository.UserRepository;
 import rifqimuhammadaziz.springrestapiblog.service.contract.UserService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -30,7 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findUserById(Long id) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", String.valueOf(id)));
+        return mapToDTO(user);
     }
 
     @Override
@@ -54,4 +61,6 @@ public class UserServiceImpl implements UserService {
         Category category = modelMapper.map(categoryDto, Category.class);
         return category;
     }
+
+
 }
